@@ -1,0 +1,66 @@
+<html>
+    <!--The majority of this code was taken from w3schools about their AJAX live search function. 
+        This is their link "https://www.w3schools.com/php/php_ajax_database.asp"
+    -->
+<head>
+    <link rel="stylesheet" href="styles/stylesheet.css"/>
+<script>
+    /* This function "showWorkouts" creates an XMLHttpRequest object that is executed when the server response is ready.
+It then send the request off to a file on the server which is "getworkout.php" */
+function showWorkouts(str) {
+    if (str == "") {
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+        /* We use a GET method and append the parameter "q" to the URL.*/
+        xmlhttp.open("GET","getworkout.php?q="+str,true);
+        xmlhttp.send();
+    }
+}
+</script>
+</head>
+<body style="background-color:rgb(224, 128, 64)">
+    <div id="header">
+        <h1 id="title"><center>&#9762;&#9760;Welcome to the Ultimate Work-out Plan Sharing Application!&#9760;&#9762;</h1></center>
+    </div>
+    <!--Here I used the mailto method to link my pace email. I made it so that when the user clicks on the link, it will open their default mail application with
+    the subject already filled as "Request for New Body Part Workout". I added this to allow users to suggest new body parts to work on.
+    If they fill out the BodyPart section of the form with another part for example "Thighs" it will send into the database but not display
+    on the table because I only pre defined the four body parts Abs, Arms, Chest, and Legs to show.-->
+    <center><p id="pstyle">Please choose a body part you want to work on below. 
+    If you would like to add a new body part to work on, you can send a request via email to: <a href="mailto:jw42299p@pace.edu?subject=Request for New Body Part Workout">Jasmine Washington</a></p></center>
+
+<center><form>
+    <!--For now I only wanted this application to show exercises for Abs, Arms, Chest, and Legs. The function "showWorkouts" 
+    changes the values of the table accordingly. This is more efficient than just showing big table of all the data and making
+    the user read through things/exercises they dont want. -->
+<select name="workouts" onchange="showWorkouts(this.value)">
+  <option value="">Select a body part:</option>
+  <option value="Abs">Abs</option>
+  <option value="Arms">Arms</option>
+  <option value="Chest">Chest</option>
+  <option value="Legs">Legs</option>
+  </select>
+</center></form>
+<br>
+<div id="txtHint"><b>Note: The exercises will be listed here once you have made a decision.</b></div>
+
+
+<br>
+<br>
+<!--This is a link to Form.html. It is for users to add their own workout ideas to the database-->
+<center><p id="pstyle">Click <a href="Form.html">here</a> if you want to add a new workout!</p></center>
+</body>
+</html>

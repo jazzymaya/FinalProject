@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--This HTML file is using a form for users to input data into the database.-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Workout Form</title>
+<link rel="stylesheet" href="styles/stylesheet.css"/>
+</head>
+<body style="background-color:rgb(224, 128, 64)">
+<br>
+<div id="formstyle">
+    <center><form method="post">
+    <p id="pstyle">Here you can fill out this form to input your own workout ideas!&#9997;</p>
+    <p>
+        <label for="Exercise">Exercise:</label>
+        <input type="text" name="Exercise" placeholder="Please put the name of the exercise. For example, 'Plank'" id="Exercise">
+    </p>
+    <p>
+        <label for="BodyPart">*BodyPart:</label>
+        <!--I looked up how to add "hints" or a "placeholder" inside the textbox to guide users on what should be typed.
+        w3schools link: "https://www.w3schools.com/tags/att_input_placeholder.asp" This was another step to enforce the message
+        I made on line 49 and 50-->
+        <input type="text" name="BodyPart" placeholder="Abs, Arms, Chest or Legs" id="BodyPart">
+    </p>
+    <p>
+        <label for="Reps">Reps:</label>
+        <input type="text" name="Reps" placeholder="Numbers only" id="Reps">
+    </p>
+    <p>
+        <label for="Sets">Sets:</label>
+        <input type="text" name="Sets" placeholder="Numbers only" id="Sets">
+    </p>
+    <p>
+        <label for="Intensity">Intensity:</label>
+        <input type="text" name="Intensity" placeholder="Low, Medium, or High" id="Intensity">
+    </p>
+    <p>
+        <label for="Description">Description:</label>
+        <input type="text" name="Description" placeholder="Please describe the exercise or other information" id="Description">
+    </p>
+    <input type="submit" value="Submit" onclick="addtoDB()">
+</center></form>
+</div>
+
+<!--I tried really hard to use the select type for a drop-down menu for Abs, Arms, Legs, and Chest but it did not send to the database
+correctly. So I wrote this message to alert users that if they do not input one of those 4 words, it will not show on the table. 
+I know whatever the user inputs would still go into the database but in a perfect environment where the user will input the intented values,
+this application is great! :D-->
+<center><p id="pstyle"><b><u>*Note:</u></b> You must type in either... [Abs, Arms, Chest, or Legs] correctly 
+otherwise it will not show! If you would like to add a new body part to work on, refer to the email provided on the main page.</p></center>
+
+<!--This gives a link to the main page when users are finished submitting their inputs-->
+<center><p id="pstyle">Click <a href="index.html">here</a> if you want to go back to the main page.</p></center>
+
+<!--The following code below is from my CIT 336 Midterm and the PHP/Javascript?AJAX/HTML tutorial. I just added/changed variables corresponding to my database.-->
+<p id=”submitted></p>
+<script>
+//This function allows the user to add a record in the database
+function addtoDB() {
+  var xhttp; 
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+        document.getElementById("submitted").innerHTML = "form submitted";
+    }
+  };
+  var Exercise = document.getElementById('Exercise').value;
+  var BodyPart = document.getElementById('BodyPart').value;
+  var Reps = document.getElementById('Reps').value;
+  var Sets = document.getElementById('Sets').value;
+  var Intensity = document.getElementById('Intensity').value;
+  var Description = document.getElementById('Description').value;
+  var queryString = "?Exercise=" + Exercise +  "&BodyPart=" + BodyPart + "&Reps=" + Reps + "&Sets=" + Sets + "&Intensity=" + Intensity + "&Description=" + Description;
+   console.log(queryString);
+   //I am using a GET method to obtain the php file "insert.php" to send the server information
+   xhttp.open("GET", "insert.php" + queryString, true);
+   xhttp.send(null); 
+
+}
+</script>
+</body>
+</html>
